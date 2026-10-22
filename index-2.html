@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LogoBiz Studio</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f5f7fb;--card:#fff;--ink:#14213d;--mute:#5b6678;--line:#d9dfea;--brand:#14213d;--onbrand:#fff;--gold:#f5a623;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1424;--card:#16203a;--ink:#eef2fb;--mute:#9aa6bf;--line:#2a3757;--brand:#f5a623;--onbrand:#14213d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1424;--card:#16203a;--ink:#eef2fb;--mute:#9aa6bf;--line:#2a3757;--brand:#f5a623;--onbrand:#14213d;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}
+header{background:#14213d;color:#fff;padding:18px 16px}
+header h1{margin:0;font-size:22px;letter-spacing:.3px}
+header p{margin:2px 0 0;color:#b9c4dd;font-size:14px}
+main{max-width:560px;margin:0 auto;padding:14px}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tab{flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:700}
+.tab[aria-pressed="true"]{background:var(--brand);color:var(--onbrand);border-color:var(--brand)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+label{display:block;font-weight:700;margin:12px 0 5px;font-size:15px}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.row{display:flex;gap:10px}.row>div{flex:1}
+.sw{display:flex;gap:10px;flex-wrap:wrap}
+.sw button{width:42px;height:42px;border-radius:50%;border:3px solid transparent;cursor:pointer}
+.sw button[aria-pressed="true"]{border-color:var(--ink)}
+.go{width:100%;margin-top:16px;padding:14px;border:0;border-radius:12px;background:var(--gold);color:#14213d;font:inherit;font-weight:800;font-size:17px}
+#out{display:none;margin-top:14px;text-align:center}
+#out img{width:100%;border-radius:12px;border:1px solid var(--line)}
+.hint{color:var(--mute);font-size:14px;margin:8px 0}
+.buy{border:2px solid var(--gold);border-radius:12px;padding:12px;margin-top:10px;text-align:left}
+.buy b{font-size:17px}
+.buy a,.buy button{display:block;width:100%;margin-top:8px;padding:12px;border-radius:10px;border:0;background:var(--brand);color:var(--onbrand);font:inherit;font-weight:700;text-align:center;text-decoration:none}
+.ok{color:#1f9d55;font-weight:700}
+#pro{display:none}
+</style>
+</head>
+<body>
+<header><h1>LogoBiz Studio</h1><p>Design. Create. Succeed.</p></header>
+<main>
+<div class="tabs">
+<button class="tab" id="tLogo" aria-pressed="true">Make a logo</button>
+<button class="tab" id="tPoster" aria-pressed="false">Make a poster</button>
+</div>
+<div class="card">
+<div id="posterOnly" style="display:none">
+<label for="head">Poster headline</label>
+<input id="head" value="Birthday party" maxlength="28">
+</div>
+<label for="name">Business or brand name</label>
+<input id="name" value="My Business" maxlength="26">
+<label for="slogan" id="sl">Slogan or offer</label>
+<input id="slogan" value="Quality you can trust" maxlength="48">
+<div class="row">
+<div><label for="style">Design style</label>
+<select id="style"><option>Modern</option><option>Elegant</option><option>Bold</option><option>Playful</option></select></div>
+<div><label for="sym">Symbol</label>
+<select id="sym"><option>★</option><option>◆</option><option>●</option><option>▲</option><option>♥</option><option>✿</option><option>⚡</option><option>☕</option><option>✂</option><option>♪</option></select></div>
+</div>
+<label>Colors</label>
+<div class="sw" id="sw"></div>
+<button class="go" id="go">Create my design</button>
+</div>
+
+<div id="out" class="card">
+<img id="img" alt="Your design">
+<p class="hint" id="hint">Press and hold the image, then choose Save image.</p>
+<div class="buy" id="buy">
+<b>Remove the watermark: HD, ready to print</b>
+<p class="hint" style="margin:6px 0 0">Pay <b>$5 (about KSh 650)</b> by M-Pesa or PayPal to <b>0143 208 623</b> or <b>0794 009 691</b>. Then send your payment message on WhatsApp (0725 219 323) to get your unlock code.</p><a id="pay" href="#">Send payment proof on WhatsApp</a>
+<label for="code" style="margin-top:10px">Already paid? Enter your unlock code</label>
+<input id="code" placeholder="Unlock code" autocomplete="off">
+<button id="unlock">Unlock</button>
+<p class="hint" id="msg"></p>
+</div>
+<p class="ok" id="pro">Unlocked. Your designs are clean and ready to save.</p>
+</div>
+</main>
+<script>
+/* ===== OWNER SETTINGS: change these three lines ===== */
+var WA = "254725219323"; /* your PayPal.me, Stripe or Payoneer payment link */
+var UNLOCK_CODE = "LBS-7K29";                   /* the code you send to customers after they pay */
+var PRICE = "$5";
+/* ==================================================== */
+var PAL=[["#14213d","#2a4a8a","#f5a623"],["#7a0f3a","#e8447a","#ffd1e3"],["#0b5d4b","#1fa77f","#f7e26b"],["#3b1d8f","#7b5cf0","#ffe14d"],["#111827","#4b5563","#34d399"],["#b23a0c","#f08a24","#fff1c9"]];
+var sel=0,mode="logo",unlocked=false;
+var $=function(i){return document.getElementById(i)};
+$("pay").href="https://wa.me/"+WA+"?text="+encodeURIComponent("Hi, I paid for LogoBiz Studio. Here is my payment message: ");
+try{if(localStorage.getItem("lbs_unlocked")==="1")unlocked=true}catch(e){}
+PAL.forEach(function(p,i){var b=document.createElement("button");b.style.background="linear-gradient(135deg,"+p[0]+","+p[1]+")";b.setAttribute("aria-label","Color "+(i+1));b.setAttribute("aria-pressed",i===0);b.onclick=function(){sel=i;[].forEach.call($("sw").children,function(c,j){c.setAttribute("aria-pressed",j===i)})};$("sw").appendChild(b)});
+function setMode(m){mode=m;$("tLogo").setAttribute("aria-pressed",m==="logo");$("tPoster").setAttribute("aria-pressed",m==="poster");$("posterOnly").style.display=m==="poster"?"block":"none";$("sl").textContent=m==="poster"?"Details or offer":"Slogan or offer";$("out").style.display="none"}
+$("tLogo").onclick=function(){setMode("logo")};$("tPoster").onclick=function(){setMode("poster")};
+var FONTS={Modern:'700 {s}px "Trebuchet MS",system-ui,sans-serif',Elegant:'italic 700 {s}px Georgia,"Times New Roman",serif',Bold:'900 {s}px "Arial Black",Impact,sans-serif',Playful:'800 {s}px "Comic Sans MS","Chalkboard SE","Trebuchet MS",sans-serif'};
+function font(s,px){return FONTS[s].replace("{s}",px)}
+function fit(c,txt,st,max,w){var px=max;c.font=font(st,px);while(c.measureText(txt).width>w&&px>24){px-=4;c.font=font(st,px)}return px}
+function wrap(c,txt,w,lh,x,y){var words=txt.split(" "),line="",yy=y;words.forEach(function(wd){var t=line?line+" "+wd:wd;if(c.measureText(t).width>w&&line){c.fillText(line,x,yy);line=wd;yy+=lh}else line=t});c.fillText(line,x,yy);return yy}
+function draw(){
+var W=1080,H=mode==="logo"?1080:1350,cv=document.createElement("canvas");cv.width=W;cv.height=H;var c=cv.getContext("2d");
+var p=PAL[sel],st=$("style").value,sym=$("sym").value,name=$("name").value.trim()||"My Business",sl=$("slogan").value.trim();
+var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,p[0]);g.addColorStop(1,p[1]);c.fillStyle=g;c.fillRect(0,0,W,H);
+c.globalAlpha=.08;c.fillStyle="#fff";for(var i=0;i<7;i++){c.beginPath();c.arc(W*(i%4)/3,H*(i/6),120+i*28,0,7);c.fill()}c.globalAlpha=1;
+c.textAlign="center";c.textBaseline="middle";
+if(mode==="logo"){
+c.strokeStyle=p[2];c.lineWidth=10;c.beginPath();c.arc(W/2,400,230,0,7);c.stroke();
+c.fillStyle="#fff";c.beginPath();c.arc(W/2,400,205,0,7);c.fill();
+c.fillStyle=p[0];c.font="260px system-ui,'Segoe UI Symbol','Apple Symbols',sans-serif";c.fillText(sym,W/2,410);
+c.fillStyle="#fff";var px=fit(c,name,st,120,W-140);c.fillText(name,W/2,745);
+c.fillStyle=p[2];c.fillRect(W/2-90,810,180,8);
+c.fillStyle="#fff";c.font=font("Modern",40).replace("700","400");wrap(c,sl,W-200,52,W/2,880);
+}else{
+var head=($("head").value.trim()||"Big Event");
+c.fillStyle=p[2];var hp=fit(c,head,st,170,W-120);c.fillText(head,W/2,230);
+c.fillStyle="#fff";c.font="320px system-ui,'Segoe UI Symbol','Apple Symbols',sans-serif";c.fillText(sym,W/2,640);
+c.fillStyle="rgba(255,255,255,.95)";c.beginPath();c.roundRect?c.roundRect(60,880,W-120,380,36):c.rect(60,880,W-120,380);c.fill();
+c.fillStyle=p[0];fit(c,name,st,92,W-200);c.fillText(name,W/2,980);
+c.fillStyle=p[1];c.font=font("Modern",44).replace("700","400");wrap(c,sl,W-220,56,W/2,1090);
+}
+if(!unlocked){c.save();c.translate(W/2,H/2);c.rotate(-.5);c.font="800 64px sans-serif";c.fillStyle="rgba(255,255,255,.3)";c.strokeStyle="rgba(0,0,0,.18)";c.lineWidth=2;for(var y=-H;y<H;y+=190){for(var x=-W;x<W;x+=620){c.fillText("PREVIEW",x+((y/190)%2?310:0),y);c.strokeText("PREVIEW",x+((y/190)%2?310:0),y)}}c.restore()}
+return cv.toDataURL("image/png");
+}
+function show(){$("img").src=draw();$("out").style.display="block";$("buy").style.display=unlocked?"none":"block";$("pro").style.display=unlocked?"block":"none";$("out").scrollIntoView({behavior:"smooth",block:"start"})}
+$("go").onclick=show;
+$("unlock").onclick=function(){if($("code").value.trim().toUpperCase()===UNLOCK_CODE.toUpperCase()){unlocked=true;try{localStorage.setItem("lbs_unlocked","1")}catch(e){}show()}else{$("msg").textContent="That code isn’t right. Check it and try again."}};
+</script>
+</body>
+</html>
